@@ -1,11 +1,8 @@
 FROM postgres:12.6
 
-MAINTAINER Chia-liang Kao <clkao@clkao.org>
-
-ENV PLV8_VERSION=2.3.15 \
-    PLV8_SHASUM="8a05f9d609bb79e47b91ebc03ea63b3f7826fa421a0ee8221ee21581d68cb5ba"
-
-RUN buildDependencies="build-essential \
+ARG PLV8_VERSION=2.3.15 \
+    PLV8_SHASUM="8a05f9d609bb79e47b91ebc03ea63b3f7826fa421a0ee8221ee21581d68cb5ba" \
+    buildDependencies="build-essential \
     ca-certificates \
     curl \
     git-core \
@@ -19,10 +16,11 @@ RUN buildDependencies="build-essential \
     libc++-dev \
     libc++abi-dev \
     postgresql-server-dev-$PG_MAJOR" \
-  && runtimeDependencies="libc++1 \
+    runtimeDependencies="libc++1 \
     libtinfo5 \
-    libc++abi1" \
-  && apt-get update \
+    libc++abi1" 
+
+RUN apt-get update \
   && apt-get install -y --no-install-recommends ${buildDependencies} ${runtimeDependencies} \
   && mkdir -p /tmp/build \
   && curl -o /tmp/build/v$PLV8_VERSION.tar.gz -SL "https://github.com/plv8/plv8/archive/v${PLV8_VERSION}.tar.gz" \
@@ -38,3 +36,4 @@ RUN buildDependencies="build-essential \
   && apt-get remove -y ${buildDependencies} \
   && apt-get autoremove -y \
   && rm -rf /tmp/build /var/lib/apt/lists/*
+  
