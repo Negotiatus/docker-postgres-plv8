@@ -1,4 +1,4 @@
-FROM postgres:12.6
+FROM postgres:12.8
 
 ARG PLV8_VERSION=2.3.15 \
     PLV8_SHASUM="8a05f9d609bb79e47b91ebc03ea63b3f7826fa421a0ee8221ee21581d68cb5ba" \
